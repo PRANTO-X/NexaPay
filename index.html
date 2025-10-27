@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexaPay | Enterprise Payment Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #635bff;
+        --secondary: #00c3ff;
+        --accent: #0ef;
+        --dark-bg: #0f0f1e;
+        --darker-bg: #0a0a15;
+        --card-bg: #15152b;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+        background-color: var(--dark-bg);
+        color: #e2e8f0;
+        padding-top: 80px;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        background: rgba(15, 15, 30, 0.95);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar.scrolled {
+        background: rgba(15, 15, 30, 0.98);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          var(--darker-bg) 0%,
+          var(--dark-bg) 100%
+        );
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .gradient-button {
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px 0 rgba(99, 91, 255, 0.3);
+      }
+
+      .gradient-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px 0 rgba(99, 91, 255, 0.5);
+      }
+
+      /* Original Modern Grid Background for Hero Section */
+      .modern-grid-bg {
+        background-color: var(--dark-bg);
+        background-image: linear-gradient(
+            rgba(99, 91, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(99, 91, 255, 0.1) 1px, transparent 1px),
+          linear-gradient(rgba(0, 195, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 195, 255, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px, 50px 50px, 100px 100px, 100px 100px;
+        background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .modern-grid-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(99, 91, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(0, 195, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 80%,
+            rgba(14, 239, 255, 0.1) 0%,
+            transparent 50%
+          );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .grid-dots {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+            rgba(99, 91, 255, 0.3) 1px,
+            transparent 1px
+          ),
+          radial-gradient(rgba(0, 195, 255, 0.2) 1px, transparent 1px);
+        background-size: 50px 50px, 100px 100px;
+        background-position: 0 0, 25px 25px;
+        z-index: 3;
+        pointer-events: none;
+        animation: dotsPulse 4s ease-in-out infinite alternate;
+      }
+
+      @keyframes dotsPulse {
+        0% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* New Two-Color Grid Background for Integration and CTA Sections */
+      .two-color-grid-bg {
+        background-color: var(--dark-bg);
+        background-image: linear-gradient(var(--darker-bg) 1px, transparent 1px),
+          linear-gradient(90deg, var(--darker-bg) 1px, transparent 1px);
+        background-size: 50px 50px;
+        background-position: -1px -1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .two-color-grid-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(99, 91, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(0, 195, 255, 0.1) 0%,
+            transparent 50%
+          );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .hero-gradient {
+        background: radial-gradient(
+          ellipse at center,
+          rgba(99, 91, 255, 0.15) 0%,
+          rgba(0, 195, 255, 0.1) 50%,
+          rgba(15, 15, 30, 0) 70%
+        );
+      }
+
+      .card-hover {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .card-hover:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .floating {
+        animation: floating 6s ease-in-out infinite;
+      }
+
+      @keyframes floating {
+        0% {
+          transform: translate(0, 0px);
+        }
+        50% {
+          transform: translate(0, -15px);
+        }
+        100% {
+          transform: translate(0, 0px);
+        }
+      }
+
+      .text-glow {
+        text-shadow: 0 0 10px rgba(99, 91, 255, 0.3);
+      }
+
+      .morph {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        animation: morph 8s ease-in-out infinite;
+      }
+
+      @keyframes morph {
+        0% {
+          border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        50% {
+          border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+        }
+        100% {
+          border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+      }
+
+      .glass {
+        background: rgba(21, 21, 43, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .gradient-border {
+        position: relative;
+        background: var(--card-bg);
+        border-radius: 16px;
+      }
+
+      .gradient-border::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+          45deg,
+          var(--primary),
+          var(--secondary),
+          var(--accent)
+        );
+        border-radius: 18px;
+        z-index: -1;
+        opacity: 0.7;
+      }
+
+      .typewriter {
+        overflow: hidden;
+        border-right: 0.15em solid var(--primary);
+        white-space: nowrap;
+        margin: 0 auto;
+        animation: typing 3.5s steps(40, end),
+          blink-caret 0.75s step-end infinite;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: var(--primary);
+        }
+      }
+
+      .tilt {
+        transform-style: preserve-3d;
+        transform: perspective(1000px);
+      }
+
+      .tilt-child {
+        transform: translateZ(20px);
+      }
+
+      .tech-card {
+        background: linear-gradient(145deg, #1a1a2e, #16213e);
+        border: 1px solid rgba(99, 91, 255, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .data-stream {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .data-stream::after {
+        content: "";
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--accent),
+          transparent
+        );
+        animation: dataFlow 3s linear infinite;
+      }
+
+      @keyframes dataFlow {
+        0% {
+          top: -100%;
+        }
+        100% {
+          top: 100%;
+        }
+      }
+
+      .scroll-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+
+      .scroll-animate.animated {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .scroll-animate-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+
+      .scroll-animate-left.animated {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .scroll-animate-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+
+      .scroll-animate-right.animated {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .scroll-animate-scale {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+
+      .scroll-animate-scale.animated {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .scroll-animate-delay-1 {
+        transition-delay: 0.1s;
+      }
+
+      .scroll-animate-delay-2 {
+        transition-delay: 0.2s;
+      }
+
+      .scroll-animate-delay-3 {
+        transition-delay: 0.3s;
+      }
+
+      .scroll-animate-delay-4 {
+        transition-delay: 0.4s;
+      }
+
+      .scroll-animate-delay-5 {
+        transition-delay: 0.5s;
+      }
+
+      .scroll-animate-delay-6 {
+        transition-delay: 0.6s;
+      }
+
+      /* Enhanced Mobile Navigation Styles */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 85%;
+        max-width: 320px;
+        height: 100vh;
+        background: linear-gradient(160deg, #0f0f1e 0%, #15152b 100%);
+        backdrop-filter: blur(20px);
+        z-index: 9999;
+        transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
+        border-left: 1px solid rgba(99, 91, 255, 0.2);
+      }
+
+      .mobile-menu.active {
+        right: 0;
+      }
+
+      .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        width: 30px;
+        height: 21px;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .hamburger span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background: white;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+        transform-origin: center;
+      }
+
+      .hamburger span:nth-child(1) {
+        transform: translateY(0) rotate(0);
+      }
+
+      .hamburger span:nth-child(2) {
+        margin: 6px 0;
+        opacity: 1;
+      }
+
+      .hamburger span:nth-child(3) {
+        transform: translateY(0) rotate(0);
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .mobile-menu-close {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(99, 91, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(99, 91, 255, 0.3);
+      }
+
+      .mobile-menu-close:hover {
+        background: rgba(99, 91, 255, 0.3);
+        transform: scale(1.1);
+      }
+
+      .mobile-menu-content {
+        padding: 1.5rem;
+      }
+
+      .mobile-nav-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        color: #e2e8f0;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .mobile-nav-item.active {
+        color: var(--primary);
+        background: rgba(99, 91, 255, 0.1);
+        border-radius: 8px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin: 0 -0.5rem;
+      }
+
+      .mobile-nav-item:last-child {
+        border-bottom: none;
+      }
+
+      .mobile-nav-item:hover {
+        color: var(--primary);
+        transform: translateX(5px);
+      }
+
+      .mobile-nav-item i {
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .mobile-cta {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: rgba(99, 91, 255, 0.1);
+        border-radius: 12px;
+        border: 1px solid rgba(99, 91, 255, 0.2);
+        text-align: center;
+      }
+
+      /* Payment Card Styles */
+      .payment-card {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(99, 91, 255, 0.2);
+      }
+
+      .payment-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          rgba(99, 91, 255, 0.1),
+          rgba(0, 195, 255, 0.1)
+        );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .card-chip {
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+        width: 40px;
+        height: 30px;
+        border-radius: 6px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-chip::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.3) 50%,
+          transparent 60%
+        );
+      }
+
+      .card-number {
+        letter-spacing: 1px;
+        font-family: "Courier New", monospace;
+        text-shadow: 0 0 10px rgba(99, 91, 255, 0.5);
+      }
+
+      .card-contactless {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .card-contactless::before,
+      .card-contactless::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+      }
+
+      .card-contactless::before {
+        width: 16px;
+        height: 16px;
+      }
+
+      .card-contactless::after {
+        width: 8px;
+        height: 8px;
+      }
+
+      .card-hologram {
+        background: linear-gradient(45deg, #00c3ff, #0ef, #635bff);
+        border-radius: 6px;
+        position: relative;
+        overflow: hidden;
+        font-size: 0.7rem;
+      }
+
+      .card-hologram::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        animation: hologram-shine 3s infinite;
+      }
+
+      @keyframes hologram-shine {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      .payment-status {
+        background: rgba(16, 185, 129, 0.2);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+      }
+
+      .security-badge {
+        background: rgba(99, 91, 255, 0.2);
+        border: 1px solid rgba(99, 91, 255, 0.4);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+      }
+
+      .card-network {
+        background: linear-gradient(45deg, #ff6b6b, #ffa36c);
+        border-radius: 4px;
+        transform: rotate(45deg);
+        width: 32px;
+        height: 32px;
+        position: relative;
+      }
+
+      .card-network::before {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        right: 4px;
+        bottom: 4px;
+        background: white;
+        border-radius: 4px;
+      }
+
+      .payment-process {
+        background: linear-gradient(
+          135deg,
+          rgba(21, 21, 43, 0.9) 0%,
+          rgba(15, 15, 30, 0.9) 100%
+        );
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(99, 91, 255, 0.3);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .payment-progress {
+        height: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .payment-progress::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 70%;
+        background: linear-gradient(90deg, #635bff, #00c3ff);
+        border-radius: 2px;
+        animation: progress-pulse 2s infinite;
+      }
+
+      @keyframes progress-pulse {
+        0% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.7;
+        }
+      }
+
+      .transaction-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 0;
+      }
+
+      .transaction-item:last-child {
+        border-bottom: none;
+      }
+
+      .scan-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #0ef, transparent);
+        animation: scan 2s linear infinite;
+        z-index: 10;
+      }
+
+      @keyframes scan {
+        0% {
+          top: 0;
+        }
+        100% {
+          top: 100%;
+        }
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Fix for the navbar gap */
+      .hero-section {
+        margin-top: -80px;
+        padding-top: 80px;
+      }
+
+      /* Mobile-specific adjustments */
+      @media (max-width: 768px) {
+        body {
+          padding-top: 70px;
+        }
+
+        .hero-section {
+          margin-top: -70px;
+          padding-top: 70px;
+        }
+
+        .payment-card-container {
+          margin-bottom: 40px;
+        }
+
+        .floating-cards {
+          display: none; /* Hide floating cards on mobile for better space */
+        }
+      }
+
+      /* Custom NexaPay Logo */
+      .nexapay-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo-icon::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: rotate(45deg);
+        animation: logo-shine 3s infinite;
+      }
+
+      @keyframes logo-shine {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+
+      .logo-icon-inner {
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .logo-icon-inner::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 2px;
+      }
+
+      .logo-text {
+        font-weight: 800;
+        font-size: 1.5rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900">
+    <!-- Fixed Navigation -->
+    <nav class="navbar py-4 px-6" id="navbar">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <div class="nexapay-logo">
+          <div class="logo-icon">
+            <div class="logo-icon-inner"></div>
+          </div>
+          <span class="logo-text">NexaPay</span>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex space-x-8">
+          <a
+            href="index.html"
+            class="text-white font-medium transition-colors duration-300 relative group"
+          >
+            Home
+            <span
+              class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-500 to-blue-500"
+            ></span>
+          </a>
+          <a
+            href="about.html"
+            class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group"
+          >
+            About
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full"
+            ></span>
+          </a>
+          <a
+            href="products.html"
+            class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group"
+          >
+            Products
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full"
+            ></span>
+          </a>
+          <a
+            href="developers.html"
+            class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group"
+          >
+            Developers
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full"
+            ></span>
+          </a>
+          <a
+            href="pricing.html"
+            class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group"
+          >
+            Pricing
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full"
+            ></span>
+          </a>
+          <a
+            href="contact.html"
+            class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group"
+          >
+            Contact
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full"
+            ></span>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Desktop CTA Buttons -->
+        <div class="hidden md:flex items-center space-x-4">
+          <a
+            href="signup.html"
+            class="px-4 py-2 rounded-lg gradient-button text-white font-medium"
+            >Get Started</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <div class="nexapay-logo">
+          <div class="logo-icon">
+            <div class="logo-icon-inner"></div>
+          </div>
+          <span class="logo-text">NexaPay</span>
+        </div>
+        <div class="mobile-menu-close" id="mobileMenuClose">
+          <i class="fas fa-times text-white"></i>
+        </div>
+      </div>
+
+      <div class="mobile-menu-content">
+        <div class="flex flex-col space-y-2">
+          <a href="index.html" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+          </a>
+          <a href="about.html" class="mobile-nav-item">
+            <i class="fas fa-info-circle"></i>
+            <span>About</span>
+          </a>
+          <a href="products.html" class="mobile-nav-item">
+            <i class="fas fa-box"></i>
+            <span>Products</span>
+          </a>
+          <a href="developers.html" class="mobile-nav-item">
+            <i class="fas fa-code"></i>
+            <span>Developers</span>
+          </a>
+          <a href="pricing.html" class="mobile-nav-item">
+            <i class="fas fa-tag"></i>
+            <span>Pricing</span>
+          </a>
+
+          <a href="contact.html" class="mobile-nav-item">
+            <i class="fas fa-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </div>
+
+        <div class="mobile-cta">
+          <h3 class="text-white font-bold mb-2">Ready to get started?</h3>
+          <p class="text-gray-400 text-sm mb-4">
+            Join thousands of businesses using NexaPay
+          </p>
+          <a
+            href="signup.html"
+            class="block w-full py-3 rounded-lg gradient-button text-white font-medium text-center"
+          >
+            Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Section with Original Modern Grid Background -->
+    <section
+      class="min-h-screen modern-grid-bg pt-20 px-6 relative overflow-hidden hero-section"
+    >
+      <div class="grid-dots"></div>
+      <div class="hero-gradient absolute inset-0 pointer-events-none"></div>
+
+      <!-- Animated background elements -->
+      <div
+        class="absolute top-20 left-10 w-20 h-20 rounded-full bg-purple-500 opacity-10 floating morph"
+      ></div>
+      <div
+        class="absolute top-40 right-20 w-16 h-16 rounded-full bg-blue-500 opacity-15 floating morph"
+        style="animation-delay: 1s"
+      ></div>
+      <div
+        class="absolute bottom-40 left-20 w-24 h-24 rounded-full bg-cyan-500 opacity-10 floating morph"
+        style="animation-delay: 2s"
+      ></div>
+      <div
+        class="absolute top-1/3 right-1/4 w-32 h-32 bg-gradient-to-r from-purple-500 to-pink-500 opacity-10 rounded-full floating"
+        style="animation-delay: 3s"
+      ></div>
+
+      <!-- Data stream lines -->
+      <div
+        class="absolute top-0 left-1/4 w-px h-full data-stream"
+        style="animation-delay: 0.5s"
+      ></div>
+      <div
+        class="absolute top-0 left-3/4 w-px h-full data-stream"
+        style="animation-delay: 1.5s"
+      ></div>
+
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div
+          class="flex flex-col lg:flex-row items-center justify-between min-h-[80vh]"
+        >
+          <div class="lg:w-1/2 mb-12 lg:mb-0">
+            <div
+              class="inline-block px-4 py-1 rounded-full glass shadow-md mb-6 scroll-animate"
+            >
+              <span class="text-sm font-medium gradient-text"
+                >New: Quantum Encryption Technology</span
+              >
+            </div>
+            <h1
+              class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight scroll-animate"
+            >
+              <span class="typewriter">Next-Gen</span>
+              <span class="gradient-text text-glow"
+                >Payment Infrastructure</span
+              >
+            </h1>
+            <p
+              class="text-xl text-gray-300 mb-8 max-w-lg scroll-animate scroll-animate-delay-1"
+            >
+              Enterprise-grade payment solutions powered by AI and blockchain
+              technology for the modern digital economy. Process transactions
+              faster, safer, and more efficiently than ever before.
+            </p>
+            <div
+              class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 scroll-animate scroll-animate-delay-2"
+            >
+              <a
+                href="signup.html"
+                class="px-8 py-4 rounded-lg gradient-button text-white font-medium text-lg text-center group"
+              >
+                <span class="flex items-center justify-center">
+                  Get Started
+                  <i
+                    class="ml-2 fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"
+                  ></i>
+                </span>
+              </a>
+              <a
+                href="developers.html"
+                class="px-8 py-4 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 hover:bg-gray-700 font-medium text-lg text-center transition-all duration-300 hover:shadow-md group"
+              >
+                <span class="flex items-center justify-center">
+                  View API Docs
+                  <i
+                    class="ml-2 fas fa-code group-hover:scale-110 transition-transform duration-300"
+                  ></i>
+                </span>
+              </a>
+            </div>
+            <div
+              class="mt-8 flex items-center scroll-animate scroll-animate-delay-3"
+            >
+              <div class="flex -space-x-2">
+                <div
+                  class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 border-2 border-gray-900"
+                ></div>
+                <div
+                  class="w-8 h-8 rounded-full bg-gradient-to-r from-green-400 to-blue-500 border-2 border-gray-900"
+                ></div>
+                <div
+                  class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 border-2 border-gray-900"
+                ></div>
+                <div
+                  class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-400 to-purple-500 border-2 border-gray-900 flex items-center justify-center text-white text-xs font-bold"
+                >
+                  +10k
+                </div>
+              </div>
+              <p class="ml-3 text-gray-400">
+                <span class="font-semibold text-white">10,000+</span> developers
+                building with NexaPay
+              </p>
+            </div>
+          </div>
+          <div
+            class="lg:w-1/2 flex justify-center relative payment-card-container"
+          >
+            <div class="relative w-full max-w-md tilt">
+              <!-- Compact Payment Card -->
+              <div class="payment-card p-6 tilt-child scroll-animate-scale">
+                <div class="scan-line"></div>
+
+                <!-- Card Header -->
+                <div class="flex justify-between items-center mb-4 z-10">
+                  <div class="flex items-center space-x-2 z-10">
+                    <div class="w-8 h-5 rounded gradient-button"></div>
+                    <span class="font-bold text-white text-sm">NexaPay</span>
+                  </div>
+                  <div class="flex items-center space-x-2 z-10">
+                    <div class="card-contactless"></div>
+                    <div class="card-network"></div>
+                  </div>
+                </div>
+
+                <!-- Card Chip & Hologram -->
+                <div class="flex justify-between items-center mb-4 z-10">
+                  <div class="card-chip"></div>
+                  <div
+                    class="card-hologram w-12 h-7 flex items-center justify-center"
+                  >
+                    <span class="text-xs font-bold text-white">3D SECURE</span>
+                  </div>
+                </div>
+
+                <!-- Card Number -->
+                <div class="mb-4 z-10">
+                  <div
+                    class="card-number text-lg font-bold text-white tracking-wider mb-1"
+                  >
+                    •••• •••• •••• 4567
+                  </div>
+                  <div class="flex justify-between text-gray-400 text-xs">
+                    <div>CARDHOLDER NAME</div>
+                    <div>EXPIRES</div>
+                  </div>
+                  <div
+                    class="flex justify-between text-white font-medium text-sm"
+                  >
+                    <div>JOHN D. CUSTOMER</div>
+                    <div>09/26</div>
+                  </div>
+                </div>
+
+                <!-- Payment Process Section -->
+                <div class="payment-process p-4 mb-4 z-10">
+                  <div class="flex justify-between items-center mb-2">
+                    <div class="text-white font-medium text-sm">
+                      Processing Payment
+                    </div>
+                    <div class="text-cyan-400 text-xs">$129.99</div>
+                  </div>
+
+                  <div class="payment-progress mb-2"></div>
+
+                  <div class="text-xs text-gray-400 flex justify-between">
+                    <div>Verifying</div>
+                    <div>Encrypting</div>
+                    <div class="text-cyan-400">Processing</div>
+                    <div>Completing</div>
+                  </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="mb-4 z-10">
+                  <div class="text-white font-medium text-sm mb-2">
+                    Recent Transactions
+                  </div>
+                  <div class="space-y-1">
+                    <div class="transaction-item">
+                      <div class="flex justify-between">
+                        <div class="text-gray-300 text-xs">
+                          Amazon Marketplace
+                        </div>
+                        <div class="text-green-400 text-xs">-$42.50</div>
+                      </div>
+                      <div class="text-xs text-gray-500">Today, 10:23 AM</div>
+                    </div>
+                    <div class="transaction-item">
+                      <div class="flex justify-between">
+                        <div class="text-gray-300 text-xs">
+                          Starbucks Coffee
+                        </div>
+                        <div class="text-green-400 text-xs">-$5.75</div>
+                      </div>
+                      <div class="text-xs text-gray-500">Today, 8:45 AM</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Button -->
+                <div
+                  class="h-10 rounded-lg gradient-button flex items-center justify-center text-white font-medium group z-10 text-sm"
+                >
+                  <span class="flex items-center">
+                    <i class="fas fa-lock mr-2"></i>
+                    Secure Payment
+                    <i
+                      class="ml-2 fas fa-check group-hover:scale-110 transition-transform duration-300"
+                    ></i>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Floating Cards (Hidden on Mobile) -->
+              <div class="floating-cards">
+                <!-- Compact Floating Status Card -->
+                <div
+                  class="absolute -top-4 -left-4 payment-status rounded-lg shadow-lg p-4 w-40 floating glass scroll-animate-left"
+                  style="animation-delay: 1.5s"
+                >
+                  <div class="flex items-center mb-2">
+                    <div
+                      class="w-6 h-6 rounded-full bg-green-900 flex items-center justify-center mr-2"
+                    >
+                      <i class="fas fa-check text-green-400 text-xs"></i>
+                    </div>
+                    <span class="text-xs font-medium text-white"
+                      >Payment Success</span
+                    >
+                  </div>
+                  <div class="text-xs text-gray-300 mb-1">
+                    Transaction completed
+                  </div>
+                  <div class="flex justify-between text-xs">
+                    <div class="text-gray-400">Amount:</div>
+                    <div class="text-white">$129.99</div>
+                  </div>
+                  <div class="flex justify-between text-xs">
+                    <div class="text-gray-400">Status:</div>
+                    <div class="text-green-400">Confirmed</div>
+                  </div>
+                </div>
+
+                <!-- Compact Floating Security Card -->
+                <div
+                  class="absolute -bottom-4 -right-4 security-badge rounded-lg shadow-lg p-4 w-40 floating glass scroll-animate-right"
+                  style="animation-delay: 2.5s"
+                >
+                  <div class="flex items-center mb-2">
+                    <div
+                      class="w-6 h-6 rounded-full bg-blue-900 flex items-center justify-center mr-2"
+                    >
+                      <i class="fas fa-shield-alt text-blue-400 text-xs"></i>
+                    </div>
+                    <span class="text-xs font-medium text-white"
+                      >Quantum Secure</span
+                    >
+                  </div>
+                  <div class="text-xs text-gray-300 mb-1">
+                    Bank-level encryption
+                  </div>
+                  <div class="flex items-center text-xs mb-1">
+                    <i class="fas fa-circle text-green-400 mr-1 text-xs"></i>
+                    <div class="text-gray-400 mr-1">Verified:</div>
+                    <div class="text-white">3D Secure</div>
+                  </div>
+                  <div class="flex items-center text-xs">
+                    <i class="fas fa-circle text-green-400 mr-1 text-xs"></i>
+                    <div class="text-gray-400 mr-1">Protected:</div>
+                    <div class="text-white">PCI DSS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trusted By Section -->
+    <section id="products" class="py-16 gradient-bg">
+      <div class="max-w-7xl mx-auto px-6">
+        <p class="text-center text-gray-400 mb-12 text-lg scroll-animate">
+          Trusted by innovative companies worldwide
+        </p>
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center"
+        >
+          <!-- Company logos -->
+          <div
+            class="h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg opacity-70 hover:opacity-100 transition-opacity duration-300 card-hover flex items-center justify-center scroll-animate scroll-animate-delay-1"
+          >
+            <span class="text-xs font-bold text-gray-300">TECHFLOW</span>
+          </div>
+          <div
+            class="h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg opacity-70 hover:opacity-100 transition-opacity duration-300 card-hover flex items-center justify-center scroll-animate scroll-animate-delay-2"
+          >
+            <span class="text-xs font-bold text-gray-300">GLOBALGOODS</span>
+          </div>
+          <div
+            class="h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg opacity-70 hover:opacity-100 transition-opacity duration-300 card-hover flex items-center justify-center scroll-animate scroll-animate-delay-3"
+          >
+            <span class="text-xs font-bold text-gray-300">FINSERVE</span>
+          </div>
+          <div
+            class="h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg opacity-70 hover:opacity-100 transition-opacity duration-300 card-hover flex items-center justify-center scroll-animate scroll-animate-delay-4"
+          >
+            <span class="text-xs font-bold text-gray-300">PAYTECH</span>
+          </div>
+          <div
+            class="h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg opacity-70 hover:opacity-100 transition-opacity duration-300 card-hover flex items-center justify-center scroll-animate scroll-animate-delay-5"
+          >
+            <span class="text-xs font-bold text-gray-300">DIGIBANK</span>
+          </div>
+          <div
+            class="h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg opacity-70 hover:opacity-100 transition-opacity duration-300 card-hover flex items-center justify-center scroll-animate scroll-animate-delay-6"
+          >
+            <span class="text-xs font-bold text-gray-300">QUANTUM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="about" class="py-20 px-6 gradient-bg">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 scroll-animate">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            Why Choose NexaPay?
+          </h2>
+          <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+            Discover how our innovative payment solutions can transform your
+            business operations and drive growth.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="card-hover tech-card rounded-2xl p-8 gradient-border scroll-animate scroll-animate-delay-1"
+          >
+            <div
+              class="w-14 h-14 rounded-xl gradient-button flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-bolt text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Lightning Fast</h3>
+            <p class="text-gray-400 mb-4">
+              Process transactions in milliseconds with our optimized
+              infrastructure that scales with your business needs.
+            </p>
+            <a
+              href="products.html"
+              class="inline-flex items-center text-blue-400 font-medium group"
+            >
+              Explore Products
+              <i
+                class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-300"
+              ></i>
+            </a>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="card-hover tech-card rounded-2xl p-8 gradient-border scroll-animate scroll-animate-delay-2"
+          >
+            <div
+              class="w-14 h-14 rounded-xl bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-shield-alt text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">
+              Bank-Level Security
+            </h3>
+            <p class="text-gray-400 mb-4">
+              Protect your transactions with military-grade encryption and fraud
+              detection systems that learn and adapt.
+            </p>
+            <a
+              href="products.html"
+              class="inline-flex items-center text-blue-400 font-medium group"
+            >
+              Learn More
+              <i
+                class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-300"
+              ></i>
+            </a>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="card-hover tech-card rounded-2xl p-8 gradient-border scroll-animate scroll-animate-delay-3"
+          >
+            <div
+              class="w-14 h-14 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-globe text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Global Reach</h3>
+            <p class="text-gray-400 mb-4">
+              Accept payments from anywhere in the world with support for 135+
+              currencies and local payment methods.
+            </p>
+            <a
+              href="products.html"
+              class="inline-flex items-center text-blue-400 font-medium group"
+            >
+              See Coverage
+              <i
+                class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-300"
+              ></i>
+            </a>
+          </div>
+
+          <!-- Feature 4 -->
+          <div
+            class="card-hover tech-card rounded-2xl p-8 gradient-border scroll-animate scroll-animate-delay-4"
+          >
+            <div
+              class="w-14 h-14 rounded-xl bg-gradient-to-r from-yellow-400 to-red-500 flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-chart-line text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Business Insights</h3>
+            <p class="text-gray-400 mb-4">
+              Gain valuable insights with our analytics dashboard that helps you
+              understand customer behavior and trends.
+            </p>
+            <a
+              href="products.html"
+              class="inline-flex items-center text-blue-400 font-medium group"
+            >
+              View Analytics
+              <i
+                class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-300"
+              ></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Integration Section with Two-Color Grid Background -->
+    <section
+      id="developers"
+      class="py-20 px-6 two-color-grid-bg relative overflow-hidden"
+    >
+      <!-- Animated background elements -->
+      <div
+        class="absolute top-20 left-10 w-16 h-16 rounded-full bg-purple-500 opacity-10 floating morph"
+      ></div>
+      <div
+        class="absolute top-40 right-20 w-12 h-12 rounded-full bg-blue-500 opacity-15 floating morph"
+        style="animation-delay: 1s"
+      ></div>
+      <div
+        class="absolute bottom-40 left-20 w-20 h-20 rounded-full bg-cyan-500 opacity-10 floating morph"
+        style="animation-delay: 2s"
+      ></div>
+
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="flex flex-col lg:flex-row items-center justify-between">
+          <div class="lg:w-1/2 mb-12 lg:mb-0">
+            <h2
+              class="text-3xl md:text-4xl font-bold text-white mb-6 scroll-animate"
+            >
+              Developer First Approach
+            </h2>
+            <p
+              class="text-xl text-gray-400 mb-8 scroll-animate scroll-animate-delay-1"
+            >
+              Our API-first design means developers can integrate payment
+              processing in hours, not weeks. Focus on building your product
+              while we handle the complexities of payments.
+            </p>
+
+            <div class="space-y-4">
+              <div
+                class="flex items-center scroll-animate scroll-animate-delay-2"
+              >
+                <div
+                  class="w-10 h-10 rounded-full bg-green-900 flex items-center justify-center mr-4"
+                >
+                  <i class="fas fa-check text-green-400"></i>
+                </div>
+                <span class="text-gray-300"
+                  >Comprehensive documentation with real-world examples</span
+                >
+              </div>
+              <div
+                class="flex items-center scroll-animate scroll-animate-delay-3"
+              >
+                <div
+                  class="w-10 h-10 rounded-full bg-green-900 flex items-center justify-center mr-4"
+                >
+                  <i class="fas fa-check text-green-400"></i>
+                </div>
+                <span class="text-gray-300"
+                  >SDKs for all major programming languages and frameworks</span
+                >
+              </div>
+              <div
+                class="flex items-center scroll-animate scroll-animate-delay-4"
+              >
+                <div
+                  class="w-10 h-10 rounded-full bg-green-900 flex items-center justify-center mr-4"
+                >
+                  <i class="fas fa-check text-green-400"></i>
+                </div>
+                <span class="text-gray-300"
+                  >Dedicated developer support and active community</span
+                >
+              </div>
+            </div>
+
+            <a
+              href="developers.html"
+              class="mt-8 inline-flex items-center px-6 py-3 rounded-lg gradient-button text-white font-medium group scroll-animate scroll-animate-delay-5"
+            >
+              Explore Developer Resources
+              <i
+                class="ml-2 fas fa-external-link-alt group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </a>
+          </div>
+
+          <div class="lg:w-1/2">
+            <div
+              class="tech-card rounded-2xl shadow-xl p-8 tilt scroll-animate-scale"
+            >
+              <div class="flex space-x-4 mb-6">
+                <div
+                  class="flex-1 bg-gradient-to-br from-blue-900 to-cyan-900 rounded-xl p-4 card-hover scroll-animate scroll-animate-delay-1"
+                >
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-800 flex items-center justify-center mb-3"
+                  >
+                    <i class="fab fa-js text-blue-400 text-xl"></i>
+                  </div>
+                  <h4 class="font-bold text-white mb-1">JavaScript</h4>
+                  <p class="text-sm text-gray-400">
+                    Full support for Node.js and browser environments
+                  </p>
+                </div>
+                <div
+                  class="flex-1 bg-gradient-to-br from-purple-900 to-pink-900 rounded-xl p-4 card-hover scroll-animate scroll-animate-delay-2"
+                >
+                  <div
+                    class="w-10 h-10 rounded-lg bg-purple-800 flex items-center justify-center mb-3"
+                  >
+                    <i class="fab fa-python text-purple-400 text-xl"></i>
+                  </div>
+                  <h4 class="font-bold text-white mb-1">Python</h4>
+                  <p class="text-sm text-gray-400">
+                    Comprehensive library with Django and Flask examples
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex space-x-4 mb-6">
+                <div
+                  class="flex-1 bg-gradient-to-br from-green-900 to-teal-900 rounded-xl p-4 card-hover scroll-animate scroll-animate-delay-3"
+                >
+                  <div
+                    class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center mb-3"
+                  >
+                    <i class="fab fa-java text-green-400 text-xl"></i>
+                  </div>
+                  <h4 class="font-bold text-white mb-1">Java</h4>
+                  <p class="text-sm text-gray-400">
+                    Enterprise-ready with Spring Boot integration
+                  </p>
+                </div>
+                <div
+                  class="flex-1 bg-gradient-to-br from-yellow-900 to-orange-900 rounded-xl p-4 card-hover scroll-animate scroll-animate-delay-4"
+                >
+                  <div
+                    class="w-10 h-10 rounded-lg bg-yellow-800 flex items-center justify-center mb-3"
+                  >
+                    <i class="fab fa-php text-yellow-400 text-xl"></i>
+                  </div>
+                  <h4 class="font-bold text-white mb-1">PHP</h4>
+                  <p class="text-sm text-gray-400">
+                    Laravel package and Composer support
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="bg-gradient-to-r from-gray-800 to-gray-700 rounded-xl p-4 scroll-animate scroll-animate-delay-5"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h4 class="font-bold text-white">Mobile SDKs</h4>
+                    <p class="text-sm text-gray-400">
+                      Native iOS & Android with React Native and Flutter
+                    </p>
+                  </div>
+                  <div
+                    class="w-10 h-10 rounded-lg gradient-button flex items-center justify-center"
+                  >
+                    <i class="fas fa-plus text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="pricing" class="py-20 px-6 gradient-bg">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div
+            class="text-center tech-card rounded-2xl p-8 shadow-md card-hover scroll-animate"
+          >
+            <div class="text-4xl md:text-5xl font-bold text-white mb-2">
+              99.99%
+            </div>
+            <div class="text-gray-400">
+              Uptime guarantee with 24/7 monitoring and support
+            </div>
+          </div>
+          <div
+            class="text-center tech-card rounded-2xl p-8 shadow-md card-hover scroll-animate scroll-animate-delay-1"
+          >
+            <div class="text-4xl md:text-5xl font-bold text-white mb-2">
+              $50B+
+            </div>
+            <div class="text-gray-400">
+              Processed annually across 150+ countries
+            </div>
+          </div>
+          <div
+            class="text-center tech-card rounded-2xl p-8 shadow-md card-hover scroll-animate scroll-animate-delay-2"
+          >
+            <div class="text-4xl md:text-5xl font-bold text-white mb-2">
+              150+
+            </div>
+            <div class="text-gray-400">
+              Countries supported with local payment methods
+            </div>
+          </div>
+          <div
+            class="text-center tech-card rounded-2xl p-8 shadow-md card-hover scroll-animate scroll-animate-delay-3"
+          >
+            <div class="text-4xl md:text-5xl font-bold text-white mb-2">
+              10M+
+            </div>
+            <div class="text-gray-400">
+              Active users and growing by 15% month over month
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 px-6 gradient-bg">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 scroll-animate">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            What Our Customers Say
+          </h2>
+          <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+            Discover how businesses across industries are transforming their
+            payment experiences with NexaPay.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Testimonial 1 -->
+          <div
+            class="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl p-8 shadow-md card-hover gradient-border scroll-animate"
+          >
+            <div class="flex items-center mb-6">
+              <div
+                class="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg mr-4"
+              >
+                SJ
+              </div>
+              <div>
+                <div class="font-bold text-white">Sarah Johnson</div>
+                <div class="text-gray-400 text-sm">CTO, TechFlow</div>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-4">
+              "Switching to NexaPay reduced our payment processing time by 70%.
+              The API integration was seamless, and their support team was
+              incredibly responsive during our migration."
+            </p>
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div
+            class="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl p-8 shadow-md card-hover gradient-border scroll-animate scroll-animate-delay-1"
+          >
+            <div class="flex items-center mb-6">
+              <div
+                class="w-14 h-14 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg mr-4"
+              >
+                MC
+              </div>
+              <div>
+                <div class="font-bold text-white">Michael Chen</div>
+                <div class="text-gray-400 text-sm">Founder, GlobalGoods</div>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-4">
+              "The global payment capabilities have been transformative for our
+              e-commerce business. We expanded to three new markets in weeks,
+              not months, thanks to NexaPay's localized payment processing."
+            </p>
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div
+            class="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl p-8 shadow-md card-hover gradient-border scroll-animate scroll-animate-delay-2"
+          >
+            <div class="flex items-center mb-6">
+              <div
+                class="w-14 h-14 rounded-full bg-gradient-to-r from-yellow-500 to-red-500 flex items-center justify-center text-white font-bold text-lg mr-4"
+              >
+                ER
+              </div>
+              <div>
+                <div class="font-bold text-white">Emma Rodriguez</div>
+                <div class="text-gray-400 text-sm">
+                  Product Manager, FinServe
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-4">
+              "The security features gave our compliance team complete
+              confidence. We've reduced chargebacks by 87% while maintaining a
+              seamless customer experience."
+            </p>
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section with Two-Color Grid Background -->
+    <section
+      id="contact"
+      class="py-20 px-6 two-color-grid-bg relative overflow-hidden"
+    >
+      <!-- Animated background elements -->
+      <div
+        class="absolute top-20 left-10 w-16 h-16 rounded-full bg-purple-500 opacity-10 floating morph"
+      ></div>
+      <div
+        class="absolute top-40 right-20 w-12 h-12 rounded-full bg-blue-500 opacity-15 floating morph"
+        style="animation-delay: 1s"
+      ></div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-white mb-6 scroll-animate"
+        >
+          Ready to Transform Your Payment Experience?
+        </h2>
+        <p
+          class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto scroll-animate scroll-animate-delay-1"
+        >
+          Join thousands of businesses using NexaPay's next-generation payment
+          infrastructure. Start processing payments in minutes with our
+          easy-to-integrate APIs and comprehensive documentation.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 scroll-animate scroll-animate-delay-2"
+        >
+          <a
+            href="signup.html"
+            class="px-8 py-4 rounded-lg gradient-button text-white font-medium text-lg group"
+          >
+            <span class="flex items-center justify-center">
+              Start Building
+              <i
+                class="ml-2 fas fa-rocket group-hover:rotate-12 transition-transform duration-300"
+              ></i>
+            </span>
+          </a>
+          <a
+            href="contact.html"
+            class="px-8 py-4 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 hover:bg-gray-700 font-medium text-lg transition-all duration-300 hover:shadow-md group"
+          >
+            <span class="flex items-center justify-center">
+              Contact Sales
+              <i
+                class="ml-2 far fa-calendar-alt group-hover:scale-110 transition-transform duration-300"
+              ></i>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Background elements -->
+      <div
+        class="absolute top-0 left-0 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse"
+      ></div>
+      <div
+        class="absolute bottom-0 right-0 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse"
+        style="animation-delay: 2s"
+      ></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 px-6 border-t border-gray-800">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+          <div class="lg:col-span-2 scroll-animate">
+            <div class="nexapay-logo mb-6">
+              <div class="logo-icon">
+                <div class="logo-icon-inner"></div>
+              </div>
+              <span class="logo-text">NexaPay</span>
+            </div>
+            <p class="text-gray-400 max-w-md mb-6">
+              Next-generation payment infrastructure for the digital economy.
+              Enterprise-grade solutions with cutting-edge security and global
+              scalability.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700 transition-colors duration-300"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700 transition-colors duration-300"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700 transition-colors duration-300"
+              >
+                <i class="fab fa-github"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="scroll-animate scroll-animate-delay-1">
+            <h3 class="font-bold text-lg mb-4">Products</h3>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a
+                  href="products.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Payments</a
+                >
+              </li>
+              <li>
+                <a
+                  href="products.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Billing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="products.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Invoicing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="products.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Capital</a
+                >
+              </li>
+              <li>
+                <a
+                  href="products.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Connect</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="scroll-animate scroll-animate-delay-2">
+            <h3 class="font-bold text-lg mb-4">Developers</h3>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a
+                  href="developers.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a
+                  href="developers.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >API Reference</a
+                >
+              </li>
+              <li>
+                <a
+                  href="developers.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Guides</a
+                >
+              </li>
+              <li>
+                <a
+                  href="developers.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Support</a
+                >
+              </li>
+              <li>
+                <a
+                  href="developers.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Changelog</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="scroll-animate scroll-animate-delay-3">
+            <h3 class="font-bold text-lg mb-4">Company</h3>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a
+                  href="about.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a
+                  href="about.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="about.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Blog</a
+                >
+              </li>
+              <li>
+                <a
+                  href="contact.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Contact</a
+                >
+              </li>
+              <li>
+                <a
+                  href="about.html"
+                  class="hover:text-white transition-colors duration-300"
+                  >Partners</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center scroll-animate"
+        >
+          <div class="text-gray-400 mb-4 md:mb-0">
+            © 2023 NexaPay. All rights reserved.
+          </div>
+          <div class="flex space-x-6 text-gray-400 text-sm">
+            <a href="#" class="hover:text-white transition-colors duration-300"
+              >Privacy Policy</a
+            >
+            <a href="#" class="hover:text-white transition-colors duration-300"
+              >Terms of Service</a
+            >
+            <a href="#" class="hover:text-white transition-colors duration-300"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu functionality
+      const hamburger = document.getElementById("hamburger")
+      const mobileMenu = document.getElementById("mobileMenu")
+      const mobileMenuOverlay = document.getElementById("mobileMenuOverlay")
+      const mobileMenuClose = document.getElementById("mobileMenuClose")
+
+      function toggleMobileMenu() {
+        hamburger.classList.toggle("active")
+        mobileMenu.classList.toggle("active")
+        mobileMenuOverlay.classList.toggle("active")
+        document.body.style.overflow = mobileMenu.classList.contains("active")
+          ? "hidden"
+          : ""
+      }
+
+      hamburger.addEventListener("click", toggleMobileMenu)
+      mobileMenuOverlay.addEventListener("click", toggleMobileMenu)
+      mobileMenuClose.addEventListener("click", toggleMobileMenu)
+
+      // Close mobile menu when clicking on a link
+      const mobileMenuLinks = document.querySelectorAll(".mobile-menu a")
+      mobileMenuLinks.forEach((link) => {
+        link.addEventListener("click", toggleMobileMenu)
+      })
+
+      // Navbar scroll effect
+      window.addEventListener("scroll", function () {
+        const navbar = document.getElementById("navbar")
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled")
+        } else {
+          navbar.classList.remove("scrolled")
+        }
+      })
+
+      // Scroll Animation Observer
+      const scrollObserverOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+
+      const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animated")
+          } else {
+            entry.target.classList.remove("animated")
+          }
+        })
+      }, scrollObserverOptions)
+
+      // Observe all elements with scroll animation classes
+      document
+        .querySelectorAll(
+          ".scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale"
+        )
+        .forEach((el) => {
+          scrollObserver.observe(el)
+        })
+
+      // Tilt effect on cards with mouse movement
+      document.querySelectorAll(".tilt").forEach((tilt) => {
+        tilt.addEventListener("mousemove", (e) => {
+          const rect = tilt.getBoundingClientRect()
+          const x = e.clientX - rect.left
+          const y = e.clientY - rect.top
+
+          const centerX = rect.width / 2
+          const centerY = rect.height / 2
+
+          const rotateY = (x - centerX) / 25
+          const rotateX = (centerY - y) / 25
+
+          tilt.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+        })
+
+        tilt.addEventListener("mouseleave", () => {
+          tilt.style.transform = "perspective(1000px) rotateX(0) rotateY(0)"
+        })
+      })
+    </script>
+  </body>
+</html>
